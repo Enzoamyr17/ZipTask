@@ -1,0 +1,11 @@
+[build]
+  command = "npm install --force && npm run build"
+  publish = ".next"
+  environment = { NODE_VERSION = "18" }
+
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
+
+[[scheduled_functions]]
+  path = "/api/cleanup"
+  schedule = "@daily"
