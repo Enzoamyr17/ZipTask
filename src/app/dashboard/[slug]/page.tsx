@@ -27,6 +27,7 @@ export default function DashboardLayout() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [projects, setProjects] = useState<any[]>([]);
+  const [taskId, setTaskId] = useState<string>('');
   
 
   const currentDate = () => {
@@ -104,7 +105,10 @@ export default function DashboardLayout() {
   }
 
   // View Task Modal
-  const toggleViewTaskModal = () => {
+  const toggleViewTaskModal = (id?: string) => {
+    if (id) {
+      setTaskId(id);
+    }
     setViewTaskModal(!viewTaskModal);
     let modal = document.getElementById('view-task-modal')
     if (modal) {
@@ -124,7 +128,10 @@ export default function DashboardLayout() {
       />
 
       {/* View Task Modal */}
-      <ViewTaskModal />
+      <ViewTaskModal 
+        taskId={taskId}
+        toggleViewTaskModal={() => toggleViewTaskModal()}
+      />
 
       {/* Loading and Error States */}
       {loading && <div className="w-full h-full flex justify-center items-center">Loading tasks...</div>}
@@ -148,7 +155,7 @@ export default function DashboardLayout() {
                   description={task.description} 
                   priority={task.priority} 
                   isCompleted={task.completed}
-                  onClick={toggleViewTaskModal}
+                  onClick={() => toggleViewTaskModal(task.id)}
                   dueDate={task.due_date}
                   dueTime={task.due_time}
                   project={task.projects?.name || null}
@@ -176,7 +183,7 @@ export default function DashboardLayout() {
                   description={task.description} 
                   priority={task.priority} 
                   isCompleted={task.completed}
-                  onClick={toggleViewTaskModal}
+                  onClick={() => toggleViewTaskModal(task.id)}
                   dueDate={task.due_date}
                   dueTime={task.due_time}
                   project={task.projects?.name || null}
@@ -202,7 +209,7 @@ export default function DashboardLayout() {
                   description={task.description} 
                   priority={task.priority} 
                   isCompleted={task.completed}
-                  onClick={toggleViewTaskModal}
+                  onClick={() => toggleViewTaskModal(task.id)}
                   dueDate={task.due_date}
                   dueTime={task.due_time}
                   project={task.projects?.name || null}
