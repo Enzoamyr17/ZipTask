@@ -112,7 +112,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
 
 
-  if (pathname.startsWith("/dashboard/")) {
+  if (pathname.startsWith("/dashboard/") && !pathname.endsWith("settings")) {
     const projectId = pathname.split("/").pop();    
     const project = projects.find(p => p.id === projectId);
     headerTitle = project?.name || "Dashboard";

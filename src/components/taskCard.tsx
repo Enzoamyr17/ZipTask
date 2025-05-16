@@ -20,7 +20,7 @@ interface TaskCardProps {
   priority: Priority | null;
   project: string | null;
   isCompleted: boolean;
-  onClick: () => void;
+  onClick: (taskId: string) => void;
   taskId: string;
 }
 
@@ -67,11 +67,11 @@ export const TaskCard: React.FC<TaskCardProps> = ({ title, description, dueDate 
     }
   }
   return (
-    <Card className="hover:scale-105 hover:shadow-xl transition-all duration-300">
+    <Card className="hover:scale-105 dark:bg-primary/10 hover:shadow-xl transition-all duration-300">
       <CardHeader className="max-h-24 overflow-hidden">
         <div className="flex flex-row justify-between">
           <Checkbox className="my-auto cursor-pointer" onClick={handleCompleteTask} checked={isCompleted}/>
-          <CardTitle onClick={onClick} className="my-auto cursor-pointer font-thin text- text-balance tracking-wide px-2">{title}</CardTitle>
+          <CardTitle onClick={() => onClick(taskId)} className="my-auto cursor-pointer font-thin text- text-balance tracking-wide px-2">{title}</CardTitle>
           <Button variant="outline" onClick={handleDeleteTask} size="icon" className="my-auto hover:text-white hover:bg-red-500 dark:hover:text-black dark:hover:bg-red-800">
             <Trash className="size-3"/>
           </Button>

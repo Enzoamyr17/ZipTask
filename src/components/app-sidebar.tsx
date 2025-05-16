@@ -4,6 +4,7 @@ import { SidebarTrigger } from "@/components/ui/sidebar"
 import ToggleDarkmode from "@/components/toggleDarkmode";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { useRouter, usePathname } from "next/navigation";
+import { Input } from "@/components/ui/input";
 
 import {
   Sidebar,
@@ -27,7 +28,7 @@ const items = [
   },
   {
     title: "Settings",
-    url: "#",
+    url: "/dashboard/settings",
     icon: Settings,
   },
 ]
@@ -39,6 +40,33 @@ export function AppSidebar() {
   const { user, loading: userLoading } = useUser();
   const pathname = usePathname();
   const supabase = createClientComponentClient();
+
+  const [newProjectName, setNewProjectName] = useState<string>('');
+
+  const handleAddProject = async () => {
+    if (!user?.id) {
+      console.error("No user ID available");
+      return;
+    }
+
+    try {
+      if (newProjectName) {
+        await supabase.from('projects').insert({ name: newProjectName, user_id: user?.id });
+        setNewProjectName('');
+        toggleNewProjectInput();
+        window.location.reload();
+      }
+    } catch (error) {
+      console.error('Error adding project:', error);
+    }
+  }
+
+  const toggleNewProjectInput = () => {
+    const newProjectInput = document.getElementById('new-project-input');
+    if (newProjectInput) {
+      newProjectInput.classList.toggle('hidden');
+    }
+  }
 
   
   const fetchProjects = async () => {
@@ -116,7 +144,7 @@ export function AppSidebar() {
               </Button>
               
             </SidebarGroupLabel>
-            <Button variant="ghost" className="flex m-auto w-6 h-6">
+            <Button variant="ghost" className="flex m-auto w-6 h-6" onClick={toggleNewProjectInput}>
               <Plus />
             </Button>
           </div>
@@ -131,6 +159,12 @@ export function AppSidebar() {
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}
+              <SidebarMenuItem>
+                <div id="new-project-input" className="hidden flex justify-between gap-2">
+                  <Input type="text" onChange={(e) => setNewProjectName(e.target.value)} placeholder="Project Name"/>
+                  <Button variant="outline" onClick={handleAddProject} className="m-auto -mr-2 w-2 aspect-square rounded-sm"><Plus className="size-3"/></Button>
+                </div>
+              </SidebarMenuItem>
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>

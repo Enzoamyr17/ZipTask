@@ -1,10 +1,7 @@
 
-  .container-dark {
+  .container{
     /* Basic dimensions and centering */
     width: 100%;
-    display: flex;
-    justify-content: left;
-    align-items: left;
   
     /* Dark mode colors and gradient */
     background: var(--primary-foreground); /* Fallback for browsers that don't support gradients */

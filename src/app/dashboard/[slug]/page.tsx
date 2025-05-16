@@ -6,7 +6,7 @@ import { format } from "date-fns"
 import * as React from "react";
 import { TaskCard } from "@/components/taskCard";
 import { AddTaskModal } from "@/components/addTaskModal";
-import { ViewTaskModal } from "@/components/viewTasModal";
+import { ViewTaskModal } from "@/components/viewTaskModal";
 import { useEffect, useState } from "react";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { useUser } from "@/contexts/UserContext";
@@ -127,14 +127,14 @@ export default function DashboardLayout() {
       <ViewTaskModal />
 
       {/* Loading and Error States */}
-      {loading && <div className="p-4">Loading tasks...</div>}
+      {loading && <div className="w-full h-full flex justify-center items-center">Loading tasks...</div>}
       {error && <div className="p-4 text-red-500">{error}</div>}
       {!loading && !error && tasks.length === 0 && (
         <div className="p-4 text-muted-foreground">No tasks found</div>
       )}
 
       {/* Cards Sections */}
-      <div className="container-dark flex w-full h-[90.8vh] bg-primary/30 overflow-x-auto p-4 gap-4">
+      <div className="container flex w-full h-[90.8vh] bg-primary/30 overflow-x-auto p-4 gap-4">
         {/* Overdue Section */}
         <div className="w-1/3 min-w-94 flex flex-col h-full rounded-xl p-8 bg-primary/10 border border-primary/10 shadow-xl dark:bg-primary-foreground/90 dark:shadow-[inset_0_0_10px_rgba(255,255,255,0.2)] dark:border-primary-foreground/90 overflow-y-auto gap-4">
             <h1 className="text-red-600 dark:text-red-500/80 text-2xl pl-2 font-bold dark:font-semibold">Overdue</h1>
